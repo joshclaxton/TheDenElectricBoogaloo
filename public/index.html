@@ -99,15 +99,23 @@
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
             platforms = this.physics.add.staticGroup();
+           
 
             //  Here we create the ground.
             //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-            platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+            platforms.create(400, 615, 'ground').setScale(2).refreshBody();
+            platforms.create(-20, 400, 'ground').setScale(3.4).refreshBody();
+            platforms.create(1950, 442, 'ground').setScale(6).refreshBody();
+            platforms.create(1950, 500, 'ground').setScale(6).refreshBody();
+            platforms.create(-750, 519, 'ground').setScale(4).refreshBody();
+            platforms.getChildren().forEach((platform) => {
+                platform.alpha = 0;
+            })
 
             //  Now let's create some ledges
-            platforms.create(600, 400, 'ground');
-            platforms.create(50, 250, 'ground');
-            platforms.create(750, 220, 'ground');
+            // platforms.create(600, 400, 'ground');
+            // platforms.create(50, 250, 'ground');
+            // platforms.create(750, 220, 'ground');
 
 
 
@@ -158,7 +166,7 @@
             }
 
             if (cursors.up.isDown && this.player.body.touching.down) {
-                this.player.setVelocityY(-330);
+                this.player.setVelocityY(-400);
             }
 
 
