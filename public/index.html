@@ -45,6 +45,8 @@
 
         function preload() {
             this.load.image('sky', 'assets/preview-day-platformer.png');
+            this.load.image('credits', 'assets/credits.png');
+            this.load.image('start-screen', 'assets/start-screen.png');
             this.load.image('ground', 'assets/platform.png');
             this.load.spritesheet('pipo', 'assets/wizKitty.png', { frameWidth: 34.88888888888888889, frameHeight: 42 });
         }
@@ -170,6 +172,12 @@
             if (cursors.up.isDown && this.player.body.touching.down) {
                 this.player.setVelocityY(-400);
             }
+
+            if(cursors.down.isDown){
+                var image = this.add.image(400, 300, 'credits').setScale(1.5);
+                setTimeout(() => { image.destroy() }, 10000);
+            }
+            
 
             this.socket.emit('playerMovement', { x: this.player.x, y: this.player.y, direction: this.player.direction });
         }
