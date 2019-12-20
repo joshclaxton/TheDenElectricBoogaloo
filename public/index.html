@@ -46,7 +46,7 @@
         function preload() {
             this.load.image('sky', 'assets/preview-day-platformer.png');
             this.load.image('ground', 'assets/platform.png');
-            this.load.spritesheet('pipo', 'assets/wizKitty.png', { frameWidth: 33, frameHeight: 42 });
+            this.load.spritesheet('pipo', 'assets/wizKitty.png', { frameWidth: 34.88888888888888889, frameHeight: 42 });
         }
 
         function create() {
@@ -193,7 +193,7 @@
         }
 
         function displayChat(self, player, chatMessage) {
-            text = self.add.text(player.x, player.y + 20, chatMessage, { fontSize: '32px', fill: '#fff' });
+            text = self.add.text(player.x -player.width/2 - 5, player.y - player.height, chatMessage, { fontSize: '32px', fill: '#fff'});
             setTimeout(() => {text.destroy()}, 5000);            
         }
         document.addEventListener('DOMContentLoaded', function () {
