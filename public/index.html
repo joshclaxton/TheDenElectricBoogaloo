@@ -47,7 +47,7 @@
         var game = new Phaser.Game(config);
 
         function preload() {
-            this.load.image('sky', 'assets/sky.png');
+            this.load.image('sky', 'assets/preview-day-platformer.png');
             this.load.image('ground', 'assets/platform.png');
             this.load.image('star', 'assets/star.png');
             this.load.image('bomb', 'assets/bomb.png');
@@ -69,6 +69,20 @@
             });
             this.socket.on('newPlayer', function (playerInfo) {
                 addOtherPlayers(self, playerInfo);
+            });
+            this.socket.on('disconnect', function (playerId) {
+                self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+                    if (playerId === otherPlayer.playerId) {
+                        otherPlayer.destroy();
+                    }
+                });
+            });
+            this.socket.on('playerMoved', function (playerInfo) {
+                self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+                    if (playerInfo.playerId === otherPlayer.playerId) {
+                        otherPlayer.setPosition(playerInfo.x, playerInfo.y);
+                    }
+                });
             });
 
 
@@ -137,7 +151,7 @@
             scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
             //  Collide the player and the stars with the platforms
-            
+
             this.physics.add.collider(stars, platforms);
             this.physics.add.collider(bombs, platforms);
 
@@ -149,7 +163,7 @@
 
         function update() {
             console.log(this.player)
-            if (!this.player){
+            if (!this.player) {
                 console.log("player not ready");
                 return;
             }
@@ -177,6 +191,8 @@
             if (cursors.up.isDown && this.player.body.touching.down) {
                 this.player.setVelocityY(-330);
             }
+
+            this.socket.emit('playerMovement', { x: this.player.x, y: this.player.y });
         }
 
         function collectStar(player, star) {
