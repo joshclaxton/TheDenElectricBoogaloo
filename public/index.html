@@ -193,7 +193,7 @@
         }
 
         function displayChat(self, player, chatMessage) {
-            text = self.add.text(player.x -player.width/2 - 5, player.y - player.height, chatMessage, { fontSize: '32px', fill: '#fff'});
+            text = self.add.text(player.x -player.width/2 - 5, player.y - player.height - 10, chatMessage, { fontSize: '32px', fill: '#fff'});
             setTimeout(() => {text.destroy()}, 5000);            
         }
         document.addEventListener('DOMContentLoaded', function () {
