@@ -36,6 +36,7 @@
                 update: update
             }
         };
+        var self;
         var player;
         var stars;
         var bombs;
@@ -56,7 +57,7 @@
         }
 
         function create() {
-            var self = this;
+            self = this;
             this.socket = io();
             this.otherPlayers = this.physics.add.group();
             this.socket.on('currentPlayers', function (players) {
@@ -89,7 +90,7 @@
             this.socket.on('playerChatReceived', function (playerInfo) {
                 self.otherPlayers.getChildren().forEach(function (otherPlayer) {
                     if (playerInfo.playerId === otherPlayer.playerId) {
-                        displayChat(otherPlayer, playerInfo.chatMessage);
+                        displayChat(self, otherPlayer, playerInfo.chatMessage);
                     }
                 });
             });
@@ -198,11 +199,6 @@
 
             if (cursors.up.isDown && this.player.body.touching.down) {
                 this.player.setVelocityY(-330);
-            }else if(cursors.down.isDown)
-            {
-                let chatData = {chatMessage:'hi'};
-                displayChat(this.player, chatData.chatMessage);
-                this.socket.emit('playerChatSent', chatData);
             }
 
 
@@ -265,23 +261,26 @@
             otherPlayer.setCollideWorldBounds(true);
         }
 
-        function displayChat(player, chatMessage) {
-            console.warn(chatMessage);
+        function displayChat(self, player, chatMessage) {
+            text = self.add.text(player.x, player.y + 20, chatMessage, { fontSize: '32px', fill: '#fff' });
         }
 
 
-        document.addEventListener('DOMContentLoaded', function(){
+        document.addEventListener('DOMContentLoaded', function () {
 
             const button = document.querySelector('#emoji-button');
             const picker = new EmojiButton();
 
             picker.on('emoji', emoji => {
-              console.log("picked emoji", emoji);
+                console.log("picked emoji", emoji);
+                let chatData = { chatMessage: emoji };
+                displayChat(self, self.player, chatData.chatMessage);
+                self.socket.emit('playerChatSent', chatData);
             });
 
             button.addEventListener('click', () => {
-              console.log('trying to pick an emoji')
-              picker.pickerVisible ? picker.hidePicker() : picker.showPicker(button);
+                console.log('trying to pick an emoji')
+                picker.pickerVisible ? picker.hidePicker() : picker.showPicker(button);
             });
 
         }, false);
