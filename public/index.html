@@ -34,7 +34,6 @@
                 update: update
             }
         };
-
         var player;
         var stars;
         var bombs;
@@ -84,6 +83,15 @@
                     }
                 });
             });
+
+            this.socket.on('playerChatReceived', function (playerInfo) {
+                self.otherPlayers.getChildren().forEach(function (otherPlayer) {
+                    if (playerInfo.playerId === otherPlayer.playerId) {
+                        displayChat(otherPlayer, playerInfo.chatMessage);
+                    }
+                });
+            });
+
 
 
 
@@ -162,12 +170,9 @@
         }
 
         function update() {
-            console.log(this.player)
             if (!this.player) {
-                console.log("player not ready");
                 return;
             }
-            console.log("player readey");
             if (gameOver) {
                 return;
             }
@@ -190,7 +195,14 @@
 
             if (cursors.up.isDown && this.player.body.touching.down) {
                 this.player.setVelocityY(-330);
+            }else if(cursors.down.isDown)
+            {
+                let chatData = {chatMessage:'hi'};
+                displayChat(this.player, chatData.chatMessage);
+                this.socket.emit('playerChatSent', chatData);
             }
+
+
 
             this.socket.emit('playerMovement', { x: this.player.x, y: this.player.y });
         }
@@ -248,7 +260,10 @@
             otherPlayer.playerId = playerInfo.playerId;
             self.physics.add.collider(otherPlayer, platforms);
             otherPlayer.setCollideWorldBounds(true);
+        }
 
+        function displayChat(player, chatMessage) {
+            console.warn(chatMessage);
         }
 
     </script>

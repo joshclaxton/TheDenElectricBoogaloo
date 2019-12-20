@@ -53,6 +53,12 @@ io.on('connection', function (socket) {
     socket.broadcast.emit('playerMoved', players[socket.id]);
   });
 
+  // when a player moves, update the player data
+  socket.on('playerChatSent', function (chatData) {
+    players[socket.id].chatMessage = chatData.chatMessage;
+    socket.broadcast.emit('playerChatReceived', players[socket.id]);
+  });
+
   socket.on('starCollected', function () {
     if (players[socket.id].team === 'red') {
       scores.red += 10;
