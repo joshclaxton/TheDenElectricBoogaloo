@@ -40,16 +40,13 @@
         var player;
         var platforms;
         var cursors;
-        var score = 0;
-        var gameOver = false;
-        var scoreText;
 
         var game = new Phaser.Game(config);
 
         function preload() {
             this.load.image('sky', 'assets/preview-day-platformer.png');
             this.load.image('ground', 'assets/platform.png');
-            this.load.spritesheet('pipo', 'assets/wizKitty.png', { frameWidth: 32.66666667, frameHeight: 42 });
+            this.load.spritesheet('pipo', 'assets/wizKitty.png', { frameWidth: 33, frameHeight: 42 });
         }
 
         function create() {
@@ -137,16 +134,10 @@
 
             //  Input Events
             cursors = this.input.keyboard.createCursorKeys();
-            //  The score
-            scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
         }
 
         function update() {
             if (!this.player) {
-                return;
-            }
-
-            if (gameOver) {
                 return;
             }
 
@@ -177,7 +168,7 @@
 
         function addPlayer(self, playerInfo) {
             // The player and its settings
-            self.player = self.physics.add.sprite(100, 450, 'pipo');
+            self.player = self.physics.add.sprite(100, 450, 'pipo').setScale(1.5);
 
             //  Player physics properties. Give the little guy a slight bounce.
             self.player.setBounce(0.2);
@@ -186,7 +177,7 @@
         }
 
         function addOtherPlayers(self, playerInfo) {
-            const otherPlayer = self.physics.add.sprite(100, 450, 'pipo').setOrigin(0.5, 0.5);
+            const otherPlayer = self.physics.add.sprite(100, 450, 'pipo').setOrigin(0.5, 0.5).setScale(1.5);
             self.otherPlayers.add(otherPlayer);
             otherPlayer.playerId = playerInfo.playerId;
             self.physics.add.collider(otherPlayer, platforms);
@@ -195,9 +186,8 @@
 
         function displayChat(self, player, chatMessage) {
             text = self.add.text(player.x, player.y + 20, chatMessage, { fontSize: '32px', fill: '#fff' });
+            setTimeout(() => {text.destroy()}, 5000);            
         }
-
-
         document.addEventListener('DOMContentLoaded', function () {
 
             const button = document.querySelector('#emoji-button');
