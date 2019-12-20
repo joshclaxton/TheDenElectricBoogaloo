@@ -54,6 +54,7 @@
         function create() {
             self = this;
             this.socket = io();
+            
             this.otherPlayers = this.physics.add.group();
             this.socket.on('currentPlayers', function (players) {
                 Object.keys(players).forEach(function (id) {
@@ -94,12 +95,14 @@
 
 
 
-
+            
             ///og stuff
 
 
             //  A simple background for our game
             this.add.image(400, 300, 'sky');
+            var startScreen = this.add.image(400, 300, 'start-screen').setScale(1.5);
+            setTimeout(() => { startScreen.destroy() }, 3000);
 
             //  The platforms group contains the ground and the 2 ledges we can jump on
             platforms = this.physics.add.staticGroup();
