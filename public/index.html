@@ -11,6 +11,8 @@
             margin: 0;
         }
     </style>
+    <script src="/js/emoji-button.js"></script>
+    <link rel="stylesheet" href="/styles/emoji.css" type="text/css" />
 </head>
 
 <body>
@@ -173,6 +175,7 @@
             if (!this.player) {
                 return;
             }
+
             if (gameOver) {
                 return;
             }
@@ -266,7 +269,26 @@
             console.warn(chatMessage);
         }
 
+
+        document.addEventListener('DOMContentLoaded', function(){
+
+            const button = document.querySelector('#emoji-button');
+            const picker = new EmojiButton();
+
+            picker.on('emoji', emoji => {
+              console.log("picked emoji", emoji);
+            });
+
+            button.addEventListener('click', () => {
+              console.log('trying to pick an emoji')
+              picker.pickerVisible ? picker.hidePicker() : picker.showPicker(button);
+            });
+
+        }, false);
     </script>
+
+    <!-- <button id="emoji-button">Send a message</button> -->
+    <a href="javascript:void(0)" id="emoji-button">Send a message</a>
 
 </body>
 

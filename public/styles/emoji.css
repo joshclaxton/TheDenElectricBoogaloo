@@ -1,0 +1,7 @@
+/* Let's be lazy, absolute positioning for the win! */
+
+#emoji-button {
+  position: absolute;
+  top: 5%;
+  right: 15%;
+}
