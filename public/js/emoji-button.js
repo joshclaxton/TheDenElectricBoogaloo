@@ -1,0 +1,1 @@
+../../node_modules/@joeattardi/emoji-button/dist/index.js
