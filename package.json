@@ -9,7 +9,7 @@
   "author": "Scott Westover",
   "license": "ISC",
   "dependencies": {
-    "@joeattardi/emoji-button": "^2.5.2",
+    "@joeattardi/emoji-button": "^4.6.2",
     "express": "^4.16.3",
     "socket.io": "^2.1.0"
   }
